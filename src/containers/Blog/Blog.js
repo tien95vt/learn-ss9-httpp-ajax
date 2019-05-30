@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 
 import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
@@ -8,21 +8,42 @@ import './Blog.css';
 
 class Blog extends Component {
     state = {
-        posts: []
+        posts: [],
+        selectedPostId: null,
+        error: false
     }
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('/posts')
             .then(response => {
-                this.setState({ posts: response.data });
+                const posts = response.data.splice(0, 4);
+                const updatedPost = posts.map(post => {
+                    return { ...post, author: "Tien"}
+                });
+                this.setState({ posts: updatedPost });
                 console.log(response);
+            })
+            .catch(err => {
+                this.setState({ error: true })
             });
+            
+    }
+
+    postSelectedHandler = (postId) => {
+        this.setState({ selectedPostId: postId })
     }
 
     render () {
-        const posts = this.state.posts.map(post => {
-            return <Post key={post.id} title={post.title} />
-        });
+        let posts = <p style={{textAlign: 'center'}}>Something went wrong!!!</p>
+        if (!this.state.error) {
+            posts = this.state.posts.map(post => {
+                return <Post 
+                            key={post.id} 
+                            title={post.title} 
+                            author={post.author}
+                            clicked={this.postSelectedHandler.bind(this, post.id)} />
+            });
+        }
 
         return (
             <div>
@@ -30,7 +51,7 @@ class Blog extends Component {
                     {posts}
                 </section>
                 <section>
-                    <FullPost />
+                    <FullPost id={this.state.selectedPostId} />
                 </section>
                 <section>
                     <NewPost />
