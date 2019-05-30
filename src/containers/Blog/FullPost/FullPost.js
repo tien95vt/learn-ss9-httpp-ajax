@@ -8,7 +8,7 @@ class FullPost extends Component {
         loadedPost: null
     }
 
-    // Bad practice -> Onlt demo -> you can not get data in there instead using data from blog.js
+    // Bad practice -> Only demo -> you can not get data in there instead using data from blog.js
     componentDidUpdate() {
         if (this.props.id) {
             if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {

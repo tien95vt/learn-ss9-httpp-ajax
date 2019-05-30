@@ -1,2 +1,11 @@
 http-ajax
 -- componentDidMont -> best place to send http request
+
+
+
+Routing
+-- react-router && react-router-dom
+   ++ import { BrowserRouter } from 'react-router-dom'  -> wrap all code -> App.js
+   ++ use Route -> import { Route } from 'react-router-dom' --> <Route path="/urlPath" render={ () => content } /> --> 'content' will render in this place
+     -> determine current path START with this /urlPath  -> use 'exact' to EXACTLY path
+      ++ use component={componentName} instead render -> to render component
