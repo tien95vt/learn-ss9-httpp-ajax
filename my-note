@@ -9,3 +9,12 @@ Routing
    ++ use Route -> import { Route } from 'react-router-dom' --> <Route path="/urlPath" render={ () => content } /> --> 'content' will render in this place
      -> determine current path START with this /urlPath  -> use 'exact' to EXACTLY path
       ++ use component={componentName} instead render -> to render component
+
+
+   ++ Redirect component(import { Redirect } 'react-router-dom') -> <Redirect to="/" from="/post" />
+      -> this.props.history.push('url') -> redirect to url  (push page on stack -> Can back)  (Note: Redirect will replace the current page = replace (NOT back) -> NOT Push)
+   ++ Guard: -> You can use state to check Auth or redirect.
+   ++ Loading Route Lazily (load những cái j mình muốn khi sử  dụng) => use function HOC => componentDidMount: setState -> return component
+      (Dynamic import: Execute when this code run) -> use const asyncPost = asyncComponent(() => import('./Post'))  -> (Lazy import when needed (bundle) -> is only loaded when they are really required) -> DoNOT load redundant code
+     + Lazy loading with React Suspense (cmp) (16.6) -> const Post = React.lazy(() => import('./Post') -> use: <Suspense fallback={<div>Loading...</div>}> <Post /> </Suspense>
+     + Lazy (network sẽ co chunk.js)
