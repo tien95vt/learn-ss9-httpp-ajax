@@ -9,10 +9,19 @@ class FullPost extends Component {
     }
 
     // Bad practice -> Only demo -> you can not get data in there instead using data from blog.js
+    componentDidMount() {
+        console.log('pppp: ', this.props);
+        this.loadData();
+    }
+
     componentDidUpdate() {
-        if (this.props.id) {
-            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
-                axios.get('/posts/'+ this.props.id)
+        this.loadData();
+    }
+
+    loadData() {
+        if (this.props.match.params.id) {
+            if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id)) {
+                axios.get('/posts/'+ this.props.match.params.id)
                 .then(response => {
                     this.setState({ loadedPost: response.data });
                 });
@@ -21,13 +30,13 @@ class FullPost extends Component {
     }
 
     deletePostHandler = () => {
-        axios.delete('/posts/'+ this.props.id)
+        axios.delete('/posts/'+ this.props.match.params.id)
             .then(response => console.log(response));
     }
 
     render () {
         let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
-        if (this.props.id) {
+        if (this.props.match.params.id) {
             post = <p style={{textAlign: 'center'}}>Loading .......</p>;
         } 
         if (this.state.loadedPost) {
